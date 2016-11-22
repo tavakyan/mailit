@@ -9,6 +9,7 @@ from api.serializers import MailItemSerializer
 
 # Create your views here.
 
+
 @api_view(['GET', 'POST'])
 @permission_classes((permissions.AllowAny,))
 def mail_item_list(request):
@@ -23,8 +24,8 @@ def mail_item_list(request):
     elif request.method == 'POST':
         serializer = MailItemSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+			serializer.save()	        
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
