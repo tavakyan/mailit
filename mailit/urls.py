@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import serializers, viewsets, routers
+from rest_framework.urlpatterns import format_suffix_patterns
+
+from api import views
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -40,5 +43,10 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^admin/', admin.site.urls),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^mailItems/$', views.mail_item_list),
+    url(r'^mailItems/(?P<pk>[0-9]+)$', views.mail_item_detail),
 ]
+
+
+# urlpatterns = format_suffix_patterns(urlpatterns)
