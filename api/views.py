@@ -34,30 +34,29 @@ def mail_item_list(request):
             serializer.save()
 
             mailItem = serializer.validated_data
-
+            senderName = 'test' # mailItem['senderName']
             letter = lob.Letter.create(
                 to_address = {
-                    'name': mailItem['message'],
-                    'address_line1': '123 Test Street',
-                    'address_city': 'Mountain View',
-                    'address_state': 'CA',
-                    'address_zip': '94041',
-                    'address_country': 'US'
+                    'name': 'name', #mailItem['recipientName'],
+                    'address_line1': 'blah', # mailItem['recipientAddress'],
+                    'address_city': mailItem['recipientCity'],
+                    'address_state': mailItem['recipientState'],
+                    'address_zip': mailItem['recipientZip'],
+                    'address_country': 'US' #mailItem['recipientCountry']
                 },
                 from_address = {
-                    'name': 'Ami Wang',
-                    'address_line1': '123 Test Avenue',
-                    'address_city': 'Mountain View',
-                    'address_state': 'CA',
-                    'address_zip': '94041',
-                    'address_country': 'US'
+                    'name': senderName,
+                    'address_line1': mailItem['senderAddress'],
+                    'address_city': mailItem['senderCity'],
+                    'address_state': mailItem['senderState'],
+                    'address_zip': mailItem['senderZip'],
+                    'address_country': 'US' # mailItem['senderCountry']
                 },
                 file = template_url,
                 data = {
-                    'name': 'Harry'
+                    'name': senderName
                 },
                 color = False)
-            print(letter)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
